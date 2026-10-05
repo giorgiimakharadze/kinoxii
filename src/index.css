@@ -1,115 +1,115 @@
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  --bg-primary: #070C1C;
+  --bg-secondary: #1E2031;
+  --bg-tertiary: #2A2C3D;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+  --text-primary: #FFFFFF;
+  --text-secondary: #A9A9A9;
+  --text-muted: #505261;
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --color-red: #EC3013;
+  --color-green: #4ADE80;
+  --color-orange: #E27E04;
 
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
+  --tint-white: #FFFFFF;
+  --tint-red: #EC3013;
+  --tint-green: #4ADE80;
+
+  --font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+
+  --font-display: 800 40px/1.1 var(--font-family);
+
+
+  --font-h1: 800 24px/1.2 var(--font-family);
+
+  --font-h2: 800 20px/1.25 var(--font-family);
+
+  --font-h3: 800 18px/1.3 var(--font-family);
+
+  --font-button: 800 14px/1 var(--font-family);
+
+  --font-label-m: 600 14px/1.2 var(--font-family);
+
+  --font-label-s: 600 12px/1.2 var(--font-family);
+
+  --font-overline: 600 12px/1.2 var(--font-family);
+  --letter-spacing-overline: 0.06em;
+
+  --font-body-l: 400 16px/130% var(--font-family);
+
+  --font-body-m: 400 14px/130% var(--font-family);
+
+  --font-body-s: 400 12px/130% var(--font-family);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  margin: 0;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-family);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 #root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
+  width: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
 }
 
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+.typo-display {
+  font: var(--font-display);
 }
 
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
+.typo-h1 {
+  font: var(--font-h1);
 }
 
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
+.typo-h2 {
+  font: var(--font-h2);
 }
 
-p {
-  margin: 0;
+.typo-h3 {
+  font: var(--font-h3);
 }
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+.typo-button {
+  font: var(--font-button);
 }
 
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+.typo-label-m {
+  font: var(--font-label-m);
+}
+
+.typo-label-s {
+  font: var(--font-label-s);
+}
+
+.typo-overline {
+  font: var(--font-overline);
+  letter-spacing: var(--letter-spacing-overline);
+  text-transform: uppercase;
+}
+
+.typo-body-l {
+  font: var(--font-body-l);
+}
+
+.typo-body-m {
+  font: var(--font-body-m);
+}
+
+.typo-body-s {
+  font: var(--font-body-s);
 }

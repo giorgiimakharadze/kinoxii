@@ -1,0 +1,327 @@
+.section {
+  /* Overridden from Hero.jsx so js and css always agree on the duration */
+  --autoplay-ms: 6000ms;
+
+  --hero-pad: clamp(20px, 3.9vw, 72px);
+  --pill-bg: color-mix(in srgb, var(--bg-tertiary) 65%, transparent);
+  --red-tint: color-mix(in srgb, var(--color-red) 18%, transparent);
+
+  position: relative;
+  width: 100%;
+  height: clamp(580px, 85vh, 760px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  user-select: none;
+}
+
+/* backdrops layer */
+.backdrop-cont {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.backdrop-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center 20%;
+  opacity: 0;
+  transform: scale(1.04);
+  transition: opacity 0.8s ease-in-out, transform var(--autoplay-ms) cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.backdrop-slide.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.gradient-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(7, 12, 28, 0.9) 0%, rgba(7, 12, 28, 0.6) 35%, rgba(7, 12, 28, 0.15) 70%, transparent 100%),
+    linear-gradient(0deg, rgba(7, 12, 28, 0.9) 0%, rgba(7, 12, 28, 0.35) 22%, transparent 55%);
+}
+
+/* hero text block */
+.content {
+  position: relative;
+  z-index: 5;
+  padding: 0 var(--hero-pad) 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+/* premiere tag */
+.premiere-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  background: var(--red-tint);
+  color: var(--color-red);
+  font: var(--font-overline);
+  letter-spacing: var(--letter-spacing-overline);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.premiere-highlight,
+.premiere-separator {
+  color: inherit;
+}
+
+.title {
+  max-width: 640px;
+  font: var(--font-display);
+  text-transform: uppercase;
+  margin-bottom: 22px;
+  animation: hero-fade-up 0.5s ease both;
+}
+
+/* badges */
+.badges {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  background: var(--pill-bg);
+  color: var(--text-primary);
+  font: var(--font-label-s);
+}
+
+.badge.age-badge {
+  background: var(--red-tint);
+  color: var(--color-red);
+}
+
+.badge.format-badge {
+  text-transform: uppercase;
+}
+
+.badge-icon {
+  opacity: 0.9;
+}
+
+.synopsis {
+  max-width: 550px;
+  font: var(--font-body-l);
+  color: var(--text-primary);
+  margin-bottom: 26px;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  animation: hero-fade-up 0.6s ease both;
+}
+
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.buy-btn,
+.sessions-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 41px;
+  padding: 0 22px;
+  border: 0;
+  border-radius: 9999px;
+  color: var(--text-primary);
+  font: var(--font-button);
+  cursor: pointer;
+  transition: filter 0.2s, background 0.2s;
+}
+
+.buy-btn {
+  background: var(--color-red);
+}
+
+.buy-btn:hover {
+  filter: brightness(0.9);
+}
+
+.sessions-btn {
+  background: var(--pill-bg);
+}
+
+.sessions-btn:hover {
+  background: color-mix(in srgb, var(--bg-tertiary) 90%, transparent);
+}
+
+
+.bottom-bar {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 0 var(--hero-pad) 42px;
+}
+
+.segments {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.segment-track {
+  flex: 1;
+  height: 3px;
+  border: 0;
+  font: inherit;
+  color: inherit;
+  background: var(--tint-white);
+  border-radius: 2px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: height 0.2s ease;
+}
+
+.segment-track:hover {
+  height: 5px;
+}
+
+.segment-fill {
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background: var(--color-red);
+  border-radius: 2px;
+}
+
+/* active segment, progress is driven by a CSS animation */
+.segment-fill.playing {
+  width: 0;
+  animation: segment-progress var(--autoplay-ms) linear forwards;
+}
+
+.segment-fill.playing.paused {
+  animation-play-state: paused;
+}
+
+@keyframes segment-progress {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 100%;
+  }
+}
+
+/* arrows */
+.nav-arrows {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.arrow-btn {
+  width: 54px;
+  height: 54px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--pill-bg);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.arrow-btn:hover {
+  background: color-mix(in srgb, var(--bg-tertiary) 90%, transparent);
+}
+
+/* visible keyboard focus */
+.buy-btn:focus-visible,
+.sessions-btn:focus-visible,
+.arrow-btn:focus-visible,
+.segment-track:focus-visible {
+  outline: 2px solid var(--text-primary);
+  outline-offset: 3px;
+}
+
+@keyframes hero-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.skeleton {
+  width: 100%;
+  height: clamp(580px, 85vh, 760px);
+  background: var(--bg-secondary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backdrop-slide {
+    transform: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .title,
+  .synopsis {
+    animation: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .content {
+    padding-bottom: 48px;
+  }
+
+  .bottom-bar {
+    padding-bottom: 24px;
+    gap: 16px;
+  }
+
+  .title {
+    font-size: 32px;
+  }
+
+  .synopsis {
+    -webkit-line-clamp: 3;
+  }
+
+  .arrow-btn {
+    width: 44px;
+    height: 44px;
+  }
+}

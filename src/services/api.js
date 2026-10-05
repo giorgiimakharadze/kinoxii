@@ -30,3 +30,7 @@ export async function apiFetch(enpoint, options = {}) {
   }
   return data;
 }
+
+export const moviesApi = {
+  getFeatured: () => apiFetch('/movies/featured'),
+};
