@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Search, ChevronDown, User, LogOut } from 'lucide-react';
+import { useState, useRef, useEffect } from "react";
+import { Search, ChevronDown, User, Ticket, LogOut, Check } from 'lucide-react';
 import "./Navbar.css"
 
 
@@ -13,6 +13,17 @@ export default function Navbar({
 }) {
   const [dropdownOpen, setdropdownOpen] = useState(false);
   const [searchQuery, setseatchQuery] = useState('');
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setdropdownOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const handleSearchChange = (e) => {
     setseatchQuery(e.target.value);
@@ -80,7 +91,7 @@ export default function Navbar({
             </div>) :
             // authorized user
             (
-              <div className="navbar-user-wrapper">
+              <div className="navbar-user-wrapper" ref={dropdownRef}>
                 <button
                   className="user-profile-btn"
                   onClick={() => setdropdownOpen(!dropdownOpen)}

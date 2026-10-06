@@ -7,8 +7,8 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState({
     id: 1,
     username: "meri",
-    fullName: "Meri Smith",
-    profileComplete: false, // shows green dot
+    fullName: "Giorgi Makharadze",
+    profileComplete: true, // shows green dot
   });
 
   return (
