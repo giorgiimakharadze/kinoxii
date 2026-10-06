@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Search, ChevronDown, User, Ticket, LogOut, Check } from 'lucide-react';
 import "./Navbar.css"
+import ProfileDropdown from "../ProfileDropdown/ProfileDropDown";
 
 
 export default function Navbar({
@@ -119,29 +120,15 @@ export default function Navbar({
                 </button>
                 {/* user dropdown menu */}
                 {dropdownOpen && (
-                  <div className="navbar-dropdown">
-                    <button className="dropdown-item"
-                      onClick={() => {
-                        setdropdownOpen(false);
-                        onNavigate?.('profile');
-                      }}
-                    >
-                      <User size={16} />
-                      <span>My Profile</span>
-                    </button>
-                    <div className="dropdown-separator" />
-                    <button
-                      className="dropdown-item danger"
-                      onClick={() => {
-                        setdropdownOpen(false);
-                        onLogout?.();
-                      }}
-                    >
-                      <LogOut size={16} />
-                      <span>Log out</span>
-                    </button>
-                  </div>
+                  <ProfileDropdown
+                    user={user}
+                    getInitials={getInitials}
+                    onNavigate={onNavigate}
+                    onLogout={onLogout}
+                    onClose={() => setdropdownOpen(false)}
+                  />
                 )}
+
               </div>
             )}
         </div>

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight, Timer, Ticket } from "lucide-react";
 import { moviesApi } from "../../services/api";
 import "./Hero.css";
+import ticketIcon from "../../assets/icons/Ticket.png"
 
 const AUTOPLAY = 6000; // 6 secs movie on display
 
@@ -139,7 +140,7 @@ export default function Hero({ onBuyTickets, onAllSessions }) {
             className="buy-btn"
             onClick={() => onBuyTickets?.(currentMovie)}
           >
-            <Ticket size={16} />
+            <img src={ticketIcon} alt="" width={18} height={18} />
             <span>Buy tickets</span>
           </button>
           <button
@@ -153,7 +154,7 @@ export default function Hero({ onBuyTickets, onAllSessions }) {
 
       </div>
 
-      {/* bottom bar: progress segments (CSS animation, no JS timers) + arrows */}
+      {/* bottom bar: progress segments */}
       <div className="bottom-bar">
         <div className="segments">
           {movies.map((m, idx) => {

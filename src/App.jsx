@@ -6,9 +6,10 @@ export default function App() {
   // testing user
   const [currentUser, setCurrentUser] = useState({
     id: 1,
-    username: "meri",
+    username: "giorgi",
     fullName: "Giorgi Makharadze",
-    profileComplete: true, // shows green dot
+    profileComplete: false,
+    mail: "giorgi@gmail.com"
   });
 
   return (
