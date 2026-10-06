@@ -1,9 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Navbar from './components/Navbar/Navbar';
 import Hero from './components/Hero/Hero';
 
 export default function App() {
+  // testing user
+  const [currentUser, setCurrentUser] = useState({
+    id: 1,
+    username: "meri",
+    fullName: "Meri Smith",
+    profileComplete: false, // shows green dot
+  });
+
   return (
-    <div style={{ backgroundColor: '#090a0f', minHeight: '100vh', width: '100%' }}>
+    <div style={{ backgroundColor: 'var(--bg-primary)', minHeight: '100vh', width: '100%', position: 'relative' }}>
+      <Navbar
+        user={currentUser}
+        onLoginClick={() => console.log('Open Login Modal')}
+        onRegisterClick={() => console.log('Open Register Modal')}
+        onLogout={() => setCurrentUser(null)}
+        onNavigate={(page) => console.log('Navigate to:', page)}
+        onSearch={(query) => console.log('Search:', query)}
+      />
       <Hero
         onBuyTickets={(movie) => console.log('Buy tickets for:', movie.title)}
         onAllSessions={(movie) => console.log('All sessions for:', movie.title)}

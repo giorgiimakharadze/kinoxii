@@ -59,7 +59,6 @@
   text-align: left;
 }
 
-/* premiere tag */
 .premiere-tag {
   display: inline-flex;
   align-items: center;
@@ -82,12 +81,10 @@
 .title {
   max-width: 640px;
   font: var(--font-display);
-  text-transform: uppercase;
   margin-bottom: 22px;
   animation: hero-fade-up 0.5s ease both;
 }
 
-/* badges */
 .badges {
   display: flex;
   align-items: center;
