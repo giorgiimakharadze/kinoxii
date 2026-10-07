@@ -1,9 +1,8 @@
 import { useState, useRef, useEffect } from "react";
-import { Search, ChevronDown, User, Ticket, LogOut, Check } from 'lucide-react';
 import "./Navbar.css"
 import ProfileDropdown from "../ProfileDropdown/ProfileDropDown";
-
-
+import { Search, X, ChevronDown, User, LogOut } from 'lucide-react';
+import SearchOverlay from '../SearchOverlay/SearchOverlay';
 export default function Navbar({
   user = null,
   onLoginClick,
@@ -13,21 +12,34 @@ export default function Navbar({
   onSearch,
 }) {
   const [dropdownOpen, setdropdownOpen] = useState(false);
-  const [searchQuery, setseatchQuery] = useState('');
+  const [searchQuery, setsearchQuery] = useState('');
+  const [searchOpen, setSearchOpen] = useState(false);
+  const searchContainerRef = useRef(null);
   const dropdownRef = useRef(null);
+  const inputRef = useRef(null);
+
+  const handleClear = () => {
+    setsearchQuery('');
+    onSearch?.('');
+    inputRef.current?.focus();   // keeps focus inside the pill, so it stays wide
+  };
+
+  const handleClickOutside = (ref, event, close) => {
+    if (ref.current && !ref.current.contains(event.target)) close();
+  };
 
   useEffect(() => {
-    function handleClickOutside(event) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setdropdownOpen(false);
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    const onMouseDown = (e) => {
+      handleClickOutside(dropdownRef, e, () => setdropdownOpen(false));
+      handleClickOutside(searchContainerRef, e, () => setSearchOpen(false));
+    };
+    document.addEventListener('mousedown', onMouseDown);
+    return () => document.removeEventListener('mousedown', onMouseDown);
   }, []);
 
+
   const handleSearchChange = (e) => {
-    setseatchQuery(e.target.value);
+    setsearchQuery(e.target.value);
     onSearch?.(e.target.value);
   }
 
@@ -69,16 +81,42 @@ export default function Navbar({
         {/* search and user */}
         <div className="navbar-right">
           {/* search */}
-          <div className="navbar-search">
-            <Search size={15} className="search-icon" />
-            <input type="text"
-              placeholder="Search films and events"
-              value={searchQuery}
-              onChange={handleSearchChange}
-              className="search-input"
-            />
-          </div>
+          <div className="navbar-search-wrapper" ref={searchContainerRef}>
+            <div className={`navbar-search ${searchOpen ? 'active' : ''}`}>
+              <Search size={15} className="search-icon" />
+              <input
+                ref={inputRef}
+                type="text"
+                placeholder="Search films and live events"
+                aria-label="Search films and live events"
+                value={searchQuery}
+                onFocus={() => setSearchOpen(true)}
+                onClick={() => setSearchOpen(true)}
+                onChange={handleSearchChange}
+                onKeyDown={(e) => e.key === 'Escape' && setSearchOpen(false)}
+                className="search-input"
+              />
 
+              {searchQuery && (
+                <button
+                  type="button"
+                  className="search-clear-btn"
+                  aria-label="Clear search"
+                  onClick={handleClear}
+                >
+                  <X size={12} strokeWidth={2.5} />
+                </button>
+              )}
+
+              <SearchOverlay
+                query={searchQuery}
+                isOpen={searchOpen}
+                onClose={() => setSearchOpen(false)}
+                onSelectMovie={(movie) => onNavigate?.('movie', movie)}
+                onBrowseSessions={() => onNavigate?.('sessions')}
+              />
+            </div>
+          </div>
           {/* user */}
           {/* guest state */}
           {!user ? (

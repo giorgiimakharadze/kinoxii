@@ -1,0 +1,246 @@
+.search-overlay-dropdown {
+  position: absolute;
+  top: calc(100% + 14px);
+  right: 0;
+  width: 390px;
+  max-height: 342px;
+  max-width: calc(100vw - 32px);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  background-color: #070c1c;
+  border: 1px solid #1e2031;
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
+  animation: search-dropdown-fade 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1000;
+}
+
+@keyframes search-dropdown-fade {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* empty or no results */
+.search-empty,
+.search-no-results {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 16px 8px 12px;
+}
+
+.search-empty-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background-color: #1e2031;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.search-circle-icon {
+  color: #a9a9a9;
+}
+
+.search-prompt-title {
+  color: #ffffff;
+  font-family: var(--font-family);
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0 0 6px;
+}
+
+.search-prompt-sub {
+  color: #a9a9a9;
+  font-family: var(--font-family);
+  font-size: 0.85rem;
+  line-height: 1.4;
+  margin: 0 0 20px;
+  max-width: 280px;
+}
+
+.search-browse-btn {
+  background-color: #1e2031;
+  color: #ffffff;
+  border: none;
+  border-radius: 9999px;
+  padding: 10px 24px;
+  font-family: var(--font-family);
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.search-browse-btn:hover {
+  background-color: #2a2c3d;
+  transform: translateY(-1px);
+}
+
+/* results */
+.search-results-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.search-results-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  margin-bottom: 8px;
+}
+
+
+.search-header-label {
+  color: #505261;
+  font-family: var(--font-family);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.search-results-count {
+  color: #a9a9a9;
+  font-family: var(--font-family);
+  font-size: 0.75rem;
+}
+
+
+
+.search-results-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+
+.search-result-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+
+  /* button reset */
+  appearance: none;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+}
+
+
+
+
+.search-result-item:hover {
+  background-color: #1e2031;
+}
+
+.search-result-poster-wrap {
+  width: 44px;
+  height: 60px;
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: #1e2031;
+  flex-shrink: 0;
+}
+
+.search-result-poster {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+.search-poster-fallback {
+  width: 100%;
+  height: 100%;
+  background-color: #2a2c3d;
+}
+
+
+.search-result-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+}
+
+
+.search-result-title {
+  color: #ffffff;
+  font-family: var(--font-family);
+  font-size: 0.92rem;
+  font-weight: 500;
+  margin: 0 0 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.search-match-bold {
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.search-result-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #a9a9a9;
+  font-family: var(--font-family);
+  font-size: 0.75rem;
+}
+
+.search-dot {
+  color: #505261;
+}
+
+
+.search-result-price-wrap {
+  flex-shrink: 0;
+  text-align: right;
+}
+
+
+.search-price {
+  color: #ffffff;
+  font-family: var(--font-family);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+
+.search-coming-soon {
+  color: #e27e04;
+  font-family: var(--font-family);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
