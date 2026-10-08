@@ -33,5 +33,6 @@ export async function apiFetch(enpoint, options = {}) {
 
 export const moviesApi = {
   getFeatured: () => apiFetch('/movies/featured'),
-  search: (query) => apiFetch(`/search?q=${encodeURIComponent(query)}`)
+  getNowPlaying: (limit) => apiFetch(limit ? `/movies/now-playing?limit=${limit}` : '/movies/now-playing'),
+  search: (query) => apiFetch(`/search?q=${encodeURIComponent(query)}`),
 };

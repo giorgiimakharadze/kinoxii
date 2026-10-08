@@ -5,7 +5,7 @@ import './SearchOverlay.css';
 
 const escapeRegExp = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-// split() with a capturing group puts every match at an odd index
+
 function highlightMatch(title, matchStr) {
   if (!matchStr) return title;
   const parts = title.split(new RegExp(`(${escapeRegExp(matchStr)})`, 'gi'));

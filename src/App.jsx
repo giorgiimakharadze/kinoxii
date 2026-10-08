@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Navbar from './components/Navbar/Navbar';
 import Hero from './components/Hero/Hero';
+import NowPlaying from './components/NowPlaying/NowPlaying';
 
 export default function App() {
   // testing user
@@ -26,6 +27,9 @@ export default function App() {
         onBuyTickets={(movie) => console.log('Buy tickets for:', movie.title)}
         onAllSessions={(movie) => console.log('All sessions for:', movie.title)}
       />
+      <NowPlaying onSelectMovie={(movie) => console.log('Go to film details for:', movie.title)}
+        onSeeAll={() => console.log('Go to sessions page')} />
+
     </div>
   );
 }
