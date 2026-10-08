@@ -35,4 +35,6 @@ export const moviesApi = {
   getFeatured: () => apiFetch('/movies/featured'),
   getNowPlaying: (limit) => apiFetch(limit ? `/movies/now-playing?limit=${limit}` : '/movies/now-playing'),
   search: (query) => apiFetch(`/search?q=${encodeURIComponent(query)}`),
+  getComingSoon: (limit) => apiFetch(limit ? `/movies/coming-soon?limit=${limit}` : '/movies/coming-soon'),
+  notifyComingSoon: (slug) => apiFetch(`/movies/${slug}/notify`, { method: 'POST' }),
 };

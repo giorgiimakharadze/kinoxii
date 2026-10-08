@@ -49,11 +49,13 @@
 
 .now-playing-scroll-row {
   display: flex;
-  align-items: stretch;
+  align-items: flex-start;
   gap: 20px;
   overflow-x: auto;
+  overflow-y: visible;
   padding-top: 12px;
   margin-top: -12px;
+  min-height: 440px;
   padding-bottom: 16px;
   scrollbar-width: none;
   -webkit-mask-image: linear-gradient(to right, #000 0%, #000 calc(100% - 90px), transparent 100%);

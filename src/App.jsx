@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Navbar from './components/Navbar/Navbar';
 import Hero from './components/Hero/Hero';
 import NowPlaying from './components/NowPlaying/NowPlaying';
+import ComingSoon from './components/ComingSoon/ComingSoon';
 
 export default function App() {
   // testing user
@@ -29,6 +30,11 @@ export default function App() {
       />
       <NowPlaying onSelectMovie={(movie) => console.log('Go to film details for:', movie.title)}
         onSeeAll={() => console.log('Go to sessions page')} />
+      <ComingSoon
+        onSelectMovie={(movie) => console.log('Details for:', movie.title)}
+        onSeeAll={() => console.log('Go to sessions')}
+        onRequireAuth={() => console.log('Open Login Modal')}
+      />
 
     </div>
   );
