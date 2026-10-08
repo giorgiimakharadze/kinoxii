@@ -56,11 +56,13 @@
   font-family: var(--font-family);
   font-size: 1.05rem;
   font-weight: 800;
+  line-height: 1.35;
   margin: 0 0 4px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: left;
+  padding-bottom: 5px;
 }
 
 
@@ -110,6 +112,7 @@
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  padding-bottom: 10px;
   animation: synopsis-fade-in 0.45s cubic-bezier(0.25, 1, 0.5, 1) 0.1s both;
 }
 

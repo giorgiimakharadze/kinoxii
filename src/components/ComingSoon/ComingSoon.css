@@ -60,6 +60,12 @@
   transition: -webkit-mask-image 0.25s ease, mask-image 0.25s ease;
 }
 
+.coming-soon-scroll-row::after {
+  content: '';
+  flex: 0 0 80px;
+  width: 80px;
+}
+
 .coming-soon-scroll-row::-webkit-scrollbar {
   display: none;
 }
