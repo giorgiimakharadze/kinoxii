@@ -3,6 +3,8 @@ import Navbar from './components/Navbar/Navbar';
 import Hero from './components/Hero/Hero';
 import NowPlaying from './components/NowPlaying/NowPlaying';
 import ComingSoon from './components/ComingSoon/ComingSoon';
+import Footer from './components/Footer/Footer';
+
 
 export default function App() {
   // testing user
@@ -35,7 +37,7 @@ export default function App() {
         onSeeAll={() => console.log('Go to sessions')}
         onRequireAuth={() => console.log('Open Login Modal')}
       />
-
+      <Footer />
     </div>
   );
 }

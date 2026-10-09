@@ -1,18 +1,20 @@
 .coming-soon-section {
   width: 100%;
-  padding: 40px 0 60px;
+  padding: 40px 70px;
   background-color: #070c1c;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  margin-top: 0px;
 }
 
 .coming-soon-container {
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 0 60px;
+  max-width: none;
+  margin: 0;
+  padding: 0;
 }
 
 .coming-soon-header {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
   margin-bottom: 24px;
 }
@@ -23,7 +25,6 @@
   font-family: var(--font-family);
   font-size: 1.4rem;
   font-weight: 800;
-  letter-spacing: -0.01em;
   margin: 0;
   text-transform: uppercase;
 }
@@ -31,12 +32,13 @@
 .coming-soon-see-all {
   color: #ec3013;
   font-family: var(--font-family);
-  font-size: 0.85rem;
-  font-weight: 700;
+  font-size: 14px;
+  line-height: 15px;
+  font-weight: 600;
   background: none;
   border: none;
   cursor: pointer;
-  padding: 4px 0;
+  padding: 0;
   transition: opacity 0.2s ease;
 }
 
