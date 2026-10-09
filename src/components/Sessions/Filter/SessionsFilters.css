@@ -1,0 +1,213 @@
+.sessions-filters-card {
+  width: 280px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 90px;
+  background-color: #121626;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 20px;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  max-height: calc(100vh - 110px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+}
+
+.sessions-filters-card::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sessions-filters-card::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+}
+
+.filters-card-main-title {
+  color: #ffffff;
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* filter section block */
+.filter-block {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.filter-block-title {
+  color: #687089;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+/* checkbox */
+.filter-checkbox-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.filter-check-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.filter-real-checkbox {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.filter-styled-box {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  border: 1.5px solid rgba(255, 255, 255, 0.22);
+  background-color: #1a1e32;
+  position: relative;
+  flex-shrink: 0;
+  transition: all 0.18s ease;
+}
+
+.filter-check-item:hover .filter-styled-box {
+  border-color: rgba(255, 255, 255, 0.45);
+}
+
+.filter-real-checkbox:checked+.filter-styled-box {
+  background-color: #ec3013;
+  border-color: #ec3013;
+}
+
+.filter-real-checkbox:checked+.filter-styled-box::after {
+  content: '';
+  position: absolute;
+  left: 4.5px;
+  top: 1.5px;
+  width: 4px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.filter-label-text {
+  font-size: 0.82rem;
+  line-height: 1.3;
+}
+
+.filter-primary-name {
+  color: #e5e8f2;
+  font-weight: 500;
+}
+
+.filter-secondary-name {
+  color: #7b8297;
+  font-size: 0.76rem;
+}
+
+.filter-empty-hint {
+  color: #5d6379;
+  font-size: 0.75rem;
+}
+
+/* date picker */
+.date-picker-row {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+}
+
+.date-picker-row::-webkit-scrollbar {
+  display: none;
+}
+
+.date-day-box {
+  flex: 0 0 38px;
+  height: 48px;
+  background-color: #1a1e32;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  padding: 0;
+}
+
+.date-day-box:hover {
+  background-color: #222740;
+}
+
+.date-day-name {
+  color: #8b93ad;
+  font-size: 0.62rem;
+  font-weight: 600;
+}
+
+.date-day-num {
+  color: #ffffff;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.date-day-box.active {
+  background-color: #ec3013;
+  border-color: #ec3013;
+}
+
+.date-day-box.active .date-day-name,
+.date-day-box.active .date-day-num {
+  color: #ffffff;
+}
+
+/* filter card footer */
+.filter-card-footer {
+  margin-top: 8px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.filter-clear-pill-btn {
+  width: 100%;
+  padding: 8px 16px;
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 9999px;
+  color: #ffffff;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-clear-pill-btn:hover {
+  border-color: #ec3013;
+  color: #ec3013;
+}
+
+.filter-active-count-text {
+  color: #727a93;
+  font-size: 0.74rem;
+  font-weight: 500;
+}

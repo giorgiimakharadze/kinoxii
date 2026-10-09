@@ -37,4 +37,9 @@ export const moviesApi = {
   search: (query) => apiFetch(`/search?q=${encodeURIComponent(query)}`),
   getComingSoon: (limit) => apiFetch(limit ? `/movies/coming-soon?limit=${limit}` : '/movies/coming-soon'),
   notifyComingSoon: (slug) => apiFetch(`/movies/${slug}/notify`, { method: 'POST' }),
+  getFilterOptions: () => apiFetch('/filter-options'),
+  getSessions: (queryParams = '') => {
+    const qs = queryParams ? (queryParams.startsWith('?') ? queryParams : `?${queryParams}`) : '';
+    return apiFetch(`/sessions${qs}`);
+  }
 };
