@@ -65,8 +65,8 @@
 
 .now-playing-scroll-row::after {
   content: '';
-  flex: 0 0 50px;
-  width: 50px;
+  flex: 0 0 40px;
+  width: 40px;
 }
 
 .now-playing-scroll-row.has-left-scroll {
