@@ -1,4 +1,3 @@
-// src/components/Sessions/Filters/SessionsFilters.jsx
 import React from 'react';
 import VenueFilter from './VenueFilter';
 import DateFilter from './DateFilter';
@@ -8,7 +7,7 @@ import TimeFilter from './TimeFilter';
 import './SessionsFilters.css';
 
 export default function SessionsFilters({
-  options,            // From GET /filter-options
+  options,            // From /filter-options
   filters,            // { date, venues, formats, languages, bands }
   onFilterChange,
   onClearFilters,
@@ -94,6 +93,7 @@ export default function SessionsFilters({
 
       {/* day */}
       <TimeFilter
+        timeBands={options?.timeBands || []}
         selectedBands={filters.bands}
         onToggleBand={(bandId) => handleGenericToggle('bands', bandId)}
       />

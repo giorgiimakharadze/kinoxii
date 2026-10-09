@@ -1,0 +1,46 @@
+.sessions-page-wrapper {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 40px 60px 80px;
+  background-color: var(--bg-primary, #070c1c);
+  min-height: 100vh;
+}
+
+.sessions-page-header {
+  margin-bottom: 32px;
+}
+
+.sessions-page-title {
+  color: #ffffff;
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 0 0 6px;
+  letter-spacing: -0.02em;
+}
+
+.sessions-page-subtitle {
+  color: #7b8297;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.sessions-layout-grid {
+  display: flex;
+  align-items: flex-start;
+  gap: 36px;
+}
+
+
+.sessions-main-content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+@media (max-width: 1024px) {
+  .sessions-layout-grid {
+    flex-direction: column;
+  }
+}
