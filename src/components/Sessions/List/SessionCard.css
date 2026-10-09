@@ -1,0 +1,115 @@
+.session-card {
+  width: 175px;
+  background-color: #121626;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+  user-select: none;
+}
+
+.session-card:hover:not(.sold-out) {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.18);
+  background-color: #181d33;
+}
+
+/* sold out state*/
+.session-card.sold-out {
+  opacity: 0.42;
+  cursor: not-allowed;
+  filter: grayscale(0.5);
+}
+
+/* time and format */
+.session-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.session-time {
+  color: #ffffff;
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.session-format-pill {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #929bb6;
+  background-color: #1a1f36;
+  padding: 2px 7px;
+  border-radius: 5px;
+  text-transform: uppercase;
+}
+
+/* language and seats remaining */
+.session-card-middle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.72rem;
+}
+
+.session-lang {
+  color: #8b92a8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 95px;
+}
+
+.session-seats-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-weight: 700;
+  font-size: 0.7rem;
+}
+
+.session-seats-badge.seats-normal {
+  color: #2ed573;
+}
+
+.session-seats-badge.seats-low {
+  color: #ec3013;
+}
+
+.session-diamond {
+  font-size: 0.65rem;
+}
+
+.session-seats-sold {
+  color: #7b8297;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+/* venue and  price */
+.session-card-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 2px;
+}
+
+.session-venue-hall {
+  color: #7b8297;
+  font-size: 0.7rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 110px;
+}
+
+.session-price {
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 800;
+}
