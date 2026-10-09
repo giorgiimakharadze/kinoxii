@@ -1,6 +1,6 @@
 import React from 'react';
 import './SessionCard.css';
-import ticketIcon from "../../assets/icons/Ticket.png"
+import ticketIcon from "../../../assets/icons/Ticket.png"
 
 
 export default function SessionCard({ session, onSelectSession }) {
@@ -42,7 +42,8 @@ export default function SessionCard({ session, onSelectSession }) {
           </span>
         ) : (
           <span className={`session-seats-badge ${isLowSeats ? 'seats-low' : 'seats-normal'}`}>
-            <img src={ticketIcon} alt="" className='session-diamond' />{seatsLeft} left
+            <img src={ticketIcon} alt="" className="session-ticket-icon" width={11} height={11} />
+            <span>{seatsLeft} left</span>
           </span>
         )}
       </div>

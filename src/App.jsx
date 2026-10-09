@@ -1,46 +1,87 @@
 import React, { useState } from 'react';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
-import Hero from './components/Hero/Hero';
-import NowPlaying from './components/NowPlaying/NowPlaying';
-import ComingSoon from './components/ComingSoon/ComingSoon';
-import RecentlyViewed from './components/RecentlyViewed/RecentlyViewed';
 import Footer from './components/Footer/Footer';
-
+import HomePage from './pages/HomePage/HomePage';
+import SessionsPage from './pages/SessionsPage/SessionsPage';
 
 export default function App() {
-  // testing user
+  const navigate = useNavigate();
+
+  // test user state
   const [currentUser, setCurrentUser] = useState({
     id: 1,
-    username: "giorgi",
-    fullName: "Giorgi Makharadze",
+    username: 'giorgi',
+    fullName: 'Giorgi Makharadze',
     profileComplete: false,
-    mail: "giorgi@gmail.com"
+    mail: 'giorgi@gmail.com',
   });
+
+  const handleNavigate = (destination, payload) => {
+    if (destination === 'home') {
+      navigate('/');
+    } else if (destination === 'sessions') {
+      navigate('/sessions');
+    } else if (destination === 'movie') {
+      //not implemented
+      navigate(`/movies/${payload?.slug || payload}`);
+    } else if (destination === 'profile') {
+      //not implemented
+      navigate('/profile');
+    } else if (destination === 'tickets') {
+      //not implemented
+      navigate('/profile?tab=tickets');
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <div style={{ backgroundColor: 'var(--bg-primary)', minHeight: '100vh', width: '100%', position: 'relative' }}>
+      {/* global Navbar */}
       <Navbar
         user={currentUser}
         onLoginClick={() => console.log('Open Login Modal')}
         onRegisterClick={() => console.log('Open Register Modal')}
         onLogout={() => setCurrentUser(null)}
-        onNavigate={(page) => console.log('Navigate to:', page)}
+        onNavigate={handleNavigate}
         onSearch={(query) => console.log('Search:', query)}
       />
-      <Hero
-        onBuyTickets={(movie) => console.log('Buy tickets for:', movie.title)}
-        onAllSessions={(movie) => console.log('All sessions for:', movie.title)}
-      />
-      <RecentlyViewed
-        onSelectMovie={(movie) => console.log('Navigate to movie:', movie.title)}
-      />
-      <NowPlaying onSelectMovie={(movie) => console.log('Go to film details for:', movie.title)}
-        onSeeAll={() => console.log('Go to sessions page')} />
-      <ComingSoon
-        onSelectMovie={(movie) => console.log('Details for:', movie.title)}
-        onSeeAll={() => console.log('Go to sessions')}
-        onRequireAuth={() => console.log('Open Login Modal')}
-      />
+
+      {/* page routing */}
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <HomePage
+              onSelectMovie={(movie) => handleNavigate('movie', movie)}
+              onNavigateToSessions={() => handleNavigate('sessions')}
+              onRequireAuth={() => console.log('Open Login Modal')}
+            />
+          }
+        />
+        <Route
+          path="/sessions"
+          element={
+            <SessionsPage
+              onSelectSession={(session) => console.log('Select session for booking:', session)}
+              onSelectMovie={(movie) => handleNavigate('movie', movie)}
+            />
+          }
+        />
+        {/* for unmatched paths */}
+        <Route
+          path="*"
+          element={
+            <HomePage
+              onSelectMovie={(movie) => handleNavigate('movie', movie)}
+              onNavigateToSessions={() => handleNavigate('sessions')}
+              onRequireAuth={() => console.log('Open Login Modal')}
+            />
+          }
+        />
+      </Routes>
+
+      {/* global Footer */}
       <Footer />
     </div>
   );

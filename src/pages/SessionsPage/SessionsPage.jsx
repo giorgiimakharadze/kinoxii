@@ -5,6 +5,7 @@ import MovieSessionRow from '../../components/Sessions/List/MovieSessionRow';
 import SessionsPagination from '../../components/Sessions/List/SessionsPagination';
 import { moviesApi } from '../../services/api';
 import { getNextSevenDays } from '../../utils/dateHelpers';
+import { getCachedFilterOptions } from '../../services/configService';
 import './SessionsPage.css';
 
 
@@ -36,6 +37,20 @@ function buildBrowserQuery({ venues, formats, languages, bands, date, sort, page
   return str ? `?${str}` : '';
 }
 
+function buildApiQuery({ venues, formats, languages, bands, date, sort, page }) {
+  const parts = [];
+  if (date) parts.push(`date=${encodeURIComponent(date)}`);
+  if (sort) parts.push(`sort=${encodeURIComponent(sort)}`);
+  if (page) parts.push(`page=${page}`);
+
+
+  venues?.forEach((v) => parts.push(`venues[]=${encodeURIComponent(v)}`));
+  formats?.forEach((f) => parts.push(`formats[]=${encodeURIComponent(f)}`));
+  languages?.forEach((l) => parts.push(`languages[]=${encodeURIComponent(l)}`));
+  bands?.forEach((b) => parts.push(`bands[]=${encodeURIComponent(b)}`));
+  return parts.join('&');
+}
+
 export default function SessionsPage({ onSelectSession, onSelectMovie }) {
   const [filterOptions, setFilterOptions] = useState(null);
   // synchronized state with url
@@ -44,6 +59,20 @@ export default function SessionsPage({ onSelectSession, onSelectMovie }) {
   const [movieGroups, setMovieGroups] = useState([]);
   const [meta, setMeta] = useState(null);
   const [loading, setLoading] = useState(true);
+
+
+  useEffect(() => {
+    async function loadOptions() {
+      try {
+        const data = await getCachedFilterOptions();
+        setFilterOptions(data);
+      } catch (err) {
+        console.error('Failed to load filter options:', err);
+      }
+    }
+    loadOptions();
+  }, []);
+
   // sync state with browser back/forward buttons
   useEffect(() => {
     const handlePopState = () => {
@@ -52,6 +81,8 @@ export default function SessionsPage({ onSelectSession, onSelectMovie }) {
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
+
+
   // fetch filter options
   useEffect(() => {
     async function loadOptions() {
@@ -161,6 +192,7 @@ export default function SessionsPage({ onSelectSession, onSelectMovie }) {
           <SessionsTopBar
             totalSessions={totalSessionsCount}
             loading={loading}
+            sortOptions={filterOptions?.sorts || []}
             currentSort={state.sort}
             onSortChange={handleSortChange}
           />
