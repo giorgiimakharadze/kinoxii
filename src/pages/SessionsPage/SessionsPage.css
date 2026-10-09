@@ -1,7 +1,7 @@
 .sessions-page-wrapper {
   max-width: 1440px;
   margin: 0 auto;
-  padding: 40px 60px 80px;
+  padding: 100px 60px 80px;
   background-color: var(--bg-primary, #070c1c);
   min-height: 100vh;
 }

@@ -16,7 +16,7 @@ function parseQueryParams() {
   const formats = params.get('format') ? params.get('format').split(',').filter(Boolean) : [];
   const languages = params.get('language') ? params.get('language').split(',').filter(Boolean) : [];
   const bands = params.get('band') ? params.get('band').split(',').filter(Boolean) : [];
-  const date = params.get('date') || getNextSevenDays()[0]?.dateStr;
+  const date = params.get('date') || '';
   const sort = params.get('sort') || 'time_asc';
   const page = parseInt(params.get('page'), 10) || 1;
 

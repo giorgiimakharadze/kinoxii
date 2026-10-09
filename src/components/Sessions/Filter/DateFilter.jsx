@@ -16,7 +16,7 @@ export default function DateFilter({ selectedDate, onSelectDate }) {
               key={day.dateStr}
               type="button"
               className={`date-day-box ${isSelected ? 'active' : ''}`}
-              onClick={() => onSelectDate(day.dateStr)}
+              onClick={() => onSelectDate(isSelected ? '' : day.dateStr)}
             >
               <span className="date-day-name">{day.weekday}</span>
               <span className="date-day-num">{day.dayNumber}</span>
