@@ -3,6 +3,7 @@ import Navbar from './components/Navbar/Navbar';
 import Hero from './components/Hero/Hero';
 import NowPlaying from './components/NowPlaying/NowPlaying';
 import ComingSoon from './components/ComingSoon/ComingSoon';
+import RecentlyViewed from './components/RecentlyViewed/RecentlyViewed';
 import Footer from './components/Footer/Footer';
 
 
@@ -29,6 +30,9 @@ export default function App() {
       <Hero
         onBuyTickets={(movie) => console.log('Buy tickets for:', movie.title)}
         onAllSessions={(movie) => console.log('All sessions for:', movie.title)}
+      />
+      <RecentlyViewed
+        onSelectMovie={(movie) => console.log('Navigate to movie:', movie.title)}
       />
       <NowPlaying onSelectMovie={(movie) => console.log('Go to film details for:', movie.title)}
         onSeeAll={() => console.log('Go to sessions page')} />
