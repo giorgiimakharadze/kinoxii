@@ -4,6 +4,8 @@ import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
 import HomePage from './pages/HomePage/HomePage';
 import SessionsPage from './pages/SessionsPage/SessionsPage';
+import MovieDetailPage from './pages/MovieDetailPage/MovieDetailPage';
+
 
 export default function App() {
   const navigate = useNavigate();
@@ -65,6 +67,15 @@ export default function App() {
             <SessionsPage
               onSelectSession={(session) => console.log('Select session for booking:', session)}
               onSelectMovie={(movie) => handleNavigate('movie', movie)}
+            />
+          }
+        />
+        <Route
+          path="/movies/:slug"
+          element={
+            <MovieDetailPage
+              user={currentUser}
+              onSelectSession={(session) => console.log('Selected session:', session)}
             />
           }
         />

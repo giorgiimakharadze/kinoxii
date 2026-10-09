@@ -41,5 +41,7 @@ export const moviesApi = {
   getSessions: (queryParams = '') => {
     const qs = queryParams ? (queryParams.startsWith('?') ? queryParams : `?${queryParams}`) : '';
     return apiFetch(`/sessions${qs}`);
-  }
+  },
+  getMovieDetails: (slug) => apiFetch(`/movies/${slug}`),
+  getMovieSessions: (slug, date) => apiFetch(date ? `/movies/${slug}/sessions?date=${date}` : `/movies/${slug}/sessions`)
 };
