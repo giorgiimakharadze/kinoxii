@@ -80,3 +80,19 @@ export const ticketsApi = {
     method: 'POST',
   }),
 };
+
+
+export const bookingApi = {
+  getSeatMap: (sessionId) => apiFetch(`/sessions/${sessionId}/seats`),
+  createHold: (sessionId, seats) => apiFetch(`/sessions/${sessionId}/holds`, {
+    method: 'POST',
+    body: JSON.stringify({ seats }),
+  }),
+  releaseHold: (holdId) => apiFetch(`/holds/${holdId}`, {
+    method: 'DELETE',
+  }),
+  createOrder: (orderData) => apiFetch('/orders', {
+    method: 'POST',
+    body: JSON.stringify(orderData),
+  }),
+};

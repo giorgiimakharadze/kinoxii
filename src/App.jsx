@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Navbar from './components/Navbar/Navbar';
@@ -9,6 +9,7 @@ import MovieDetailPage from './pages/MovieDetailPage/MovieDetailPage';
 import LoginModal from './components/Auth/LoginModal';
 import RegisterModal from './components/Auth/RegisterModal';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
+import BookingModal from './components/Booking/BookingModal';
 
 function AppContent() {
   const navigate = useNavigate();
@@ -25,6 +26,8 @@ function AppContent() {
     requireAuth,
   } = useAuth();
 
+  const [selectedSession, setSelectedSession] = useState(null);
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
   const handleNavigate = (destination, payload) => {
     if (destination === 'home') {
       navigate('/');
@@ -41,8 +44,13 @@ function AppContent() {
   };
 
   const handleSelectSession = (session) => {
-    requireAuth(() => {
-      console.log('User authorized! Proceed to seat selection for session:', session);
+    requireAuth((currentUser) => {
+      if (!currentUser.profileComplete) {
+        navigate('/profile');
+        return;
+      }
+      setSelectedSession(session);
+      setIsBookingOpen(true);
     });
   };
 
@@ -104,7 +112,6 @@ function AppContent() {
         />
       </Routes>
 
-      {/* global login modal */}
       <LoginModal
         isOpen={isLoginOpen}
         onClose={closeLogin}
@@ -116,6 +123,14 @@ function AppContent() {
         onClose={closeRegister}
         onSwitchToLogin={openLogin}
         onSuccess={handleLoginSuccess}
+      />
+      <BookingModal
+        isOpen={isBookingOpen}
+        session={selectedSession}
+        user={user}
+        onClose={() => setIsBookingOpen(false)}
+        onNavigateToProfile={() => navigate('/profile')}
+        onOpenLogin={() => openLogin()}
       />
       {/* Global Footer */}
       <Footer />
