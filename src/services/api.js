@@ -72,3 +72,11 @@ export const moviesApi = {
   getMovieDetails: (slug) => apiFetch(`/movies/${slug}`),
   getMovieSessions: (slug, date) => apiFetch(date ? `/movies/${slug}/sessions?date=${date}` : `/movies/${slug}/sessions`)
 };
+
+
+export const ticketsApi = {
+  getTickets: (filter) => apiFetch(filter ? `/tickets?filter=${filter}` : '/tickets'),
+  refundOrder: (orderReference) => apiFetch(`/orders/${orderReference}/refund`, {
+    method: 'POST',
+  }),
+};

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import ProfileTabs from '../../components/Profile/ProfileTabs';
@@ -10,6 +10,7 @@ export default function ProfilePage() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const { user, requireAuth, loadingUser } = useAuth();
+  const [upcomingCount, setUpcomingCount] = useState(0);
 
   const activeTab = searchParams.get('tab') === 'tickets' ? 'tickets' : 'personal';
 
@@ -40,13 +41,13 @@ export default function ProfilePage() {
         <ProfileTabs
           activeTab={activeTab}
           onTabChange={(tab) => setSearchParams(tab === 'tickets' ? { tab: 'tickets' } : {})}
-          ticketCount={2}
+          ticketCount={upcomingCount}
         />
 
         {activeTab === 'personal' ? (
           <PersonalInfoForm />
         ) : (
-          <TicketsTab />
+          <TicketsTab onUpcomingCountChange={setUpcomingCount} />
         )}
       </div>
     </div>

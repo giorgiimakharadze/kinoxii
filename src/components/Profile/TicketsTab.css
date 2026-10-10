@@ -1,0 +1,69 @@
+.tickets-tab-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+.tickets-subtabs-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #0b1021;
+  padding: 4px;
+  border-radius: 12px;
+  width: fit-content;
+}
+
+.tickets-subtab-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 9px;
+  color: #7b8297;
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tickets-subtab-pill:hover {
+  color: #ffffff;
+}
+
+.tickets-subtab-pill.active {
+  background-color: #171c2f;
+  color: #ffffff;
+}
+
+.subtab-count-badge {
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: 10px;
+}
+
+.subtab-count-badge.past {
+  color: #7b8297;
+}
+
+.tickets-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.tickets-loading-text,
+.tickets-empty-box {
+  padding: 40px;
+  text-align: center;
+  color: #7b8297;
+  background-color: #0c1224;
+  border-radius: 16px;
+  border: 1px dashed rgba(255, 255, 255, 0.08);
+}
