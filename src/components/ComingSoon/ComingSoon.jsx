@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ComingSoonCard from './ComingSoonCard';
 import { moviesApi } from '../../services/api';
+import { useAuth } from '../../context/AuthContext';
 import './ComingSoon.css';
 
 
@@ -9,21 +10,22 @@ export default function ComingSoon({ onSelectMovie, onSeeAll, onRequireAuth }) {
   const [loading, setLoading] = useState(true);
   const [isScrolledLeft, setIsScrolledLeft] = useState(false);
   const scrollRowRef = useRef(null);
+  const { user } = useAuth();
 
   useEffect(() => {
-    async function loadingComingSoon() {
+    async function loadComingSoon() {
       try {
         setLoading(true);
         const res = await moviesApi.getComingSoon();
         setMovies(res?.data || []);
       } catch (err) {
-        console.error('failed to load coming soon movies:', err);
+        console.error('Failed to load coming soon movies:', err);
       } finally {
         setLoading(false);
       }
     }
-    loadingComingSoon();
-  }, []);
+    loadComingSoon();
+  }, [user]);
 
   const handleScroll = () => {
     if (scrollRowRef.current) {
