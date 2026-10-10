@@ -25,7 +25,6 @@ export default function App() {
     } else if (destination === 'sessions') {
       navigate('/sessions');
     } else if (destination === 'movie') {
-      //not implemented
       navigate(`/movies/${payload?.slug || payload}`);
     } else if (destination === 'profile') {
       //not implemented

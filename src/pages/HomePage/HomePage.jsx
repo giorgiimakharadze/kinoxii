@@ -30,7 +30,6 @@ export default function HomePage({
 
       {/* coming soon */}
       <ComingSoon
-        onSelectMovie={(movie) => onSelectMovie?.(movie)}
         onSeeAll={() => onNavigateToSessions?.()}
         onRequireAuth={onRequireAuth}
       />

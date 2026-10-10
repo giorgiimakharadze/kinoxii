@@ -9,6 +9,11 @@ export async function apiFetch(enpoint, options = {}) {
     Accept: 'application/json',
     ...(options.headers || {}),
   };
+
+  if (!(options.body instanceof FormData) && !headers['Content-Type'] && options.method && options.method !== 'GET') {
+    headers['Content-Type'] = 'application/json';
+  }
+
   if (token) {
     headers.Authorization = `Bearer ${token}`
   }
@@ -22,6 +27,11 @@ export async function apiFetch(enpoint, options = {}) {
   // reading the body
   const data = await response.json().catch(() => null);
 
+  if (response.status === 401 && enpoint !== '/login' && enpoint !== '/me') {
+    localStorage.removeItem('kinoxii_token');
+    window.dispatchEvent(new CustomEvent('kinoxii_auth_required'));
+  }
+
   if (!response.ok) {
     const error = new Error(data?.message || 'API request failed');
     error.status = response.status;
@@ -30,6 +40,15 @@ export async function apiFetch(enpoint, options = {}) {
   }
   return data;
 }
+
+export const authApi = {
+  login: (credentials) => apiFetch('/login', {
+    method: 'POST',
+    body: JSON.stringify(credentials),
+  }),
+  logout: () => apiFetch('/logout', { method: 'POST' }),
+  getMe: () => apiFetch('/me'),
+};
 
 export const moviesApi = {
   getFeatured: () => apiFetch('/movies/featured'),
