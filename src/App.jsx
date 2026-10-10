@@ -7,6 +7,7 @@ import HomePage from './pages/HomePage/HomePage';
 import SessionsPage from './pages/SessionsPage/SessionsPage';
 import MovieDetailPage from './pages/MovieDetailPage/MovieDetailPage';
 import LoginModal from './components/Auth/LoginModal';
+import RegisterModal from './components/Auth/RegisterModal';
 
 function AppContent() {
   const navigate = useNavigate();
@@ -15,6 +16,8 @@ function AppContent() {
     isLoginOpen,
     closeLogin,
     openLogin,
+    isRegisterOpen,
+    closeRegister,
     openRegister,
     handleLoginSuccess,
     logout,
@@ -103,7 +106,12 @@ function AppContent() {
         onSwitchToRegister={openRegister}
         onSuccess={handleLoginSuccess}
       />
-
+      <RegisterModal
+        isOpen={isRegisterOpen}
+        onClose={closeRegister}
+        onSwitchToLogin={openLogin}
+        onSuccess={handleLoginSuccess}
+      />
       {/* Global Footer */}
       <Footer />
     </div>

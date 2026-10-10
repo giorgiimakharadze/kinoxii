@@ -46,6 +46,10 @@ export const authApi = {
     method: 'POST',
     body: JSON.stringify(credentials),
   }),
+  register: (formData) => apiFetch('/register', {
+    method: 'POST',
+    body: formData,
+  }),
   logout: () => apiFetch('/logout', { method: 'POST' }),
   getMe: () => apiFetch('/me'),
 };

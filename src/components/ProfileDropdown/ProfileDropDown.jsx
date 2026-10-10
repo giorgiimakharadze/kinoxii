@@ -38,7 +38,7 @@ export default function ProfileDropdown({
             {user.fullName || user.username}
           </h4>
           <p className='dropdown-email'>
-            {user.mail || 'user@example.com'}
+            {user.email || 'user@example.com'}
           </p>
         </div>
       </div>

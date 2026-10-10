@@ -80,6 +80,7 @@ export function AuthProvider({ children }) {
 
     setUser(userData);
     setIsLoginOpen(false);
+    setIsRegisterOpen(false);
 
     // replay pending action if one was waiting
     if (pendingActionRef.current) {

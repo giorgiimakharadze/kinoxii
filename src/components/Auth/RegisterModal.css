@@ -1,0 +1,77 @@
+.register-modal-card {
+  max-width: 440px;
+}
+
+.register-avatar-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.register-avatar-upload-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  user-select: none;
+  margin-bottom: 2px;
+}
+
+.register-avatar-icon-box {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background-color: #171c2f;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.register-avatar-upload-row:hover .register-avatar-icon-box {
+  background-color: #1f253e;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.register-upload-icon {
+  color: #7b8297;
+}
+
+.register-avatar-img-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.register-avatar-text-col {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.register-avatar-title {
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.register-avatar-subtitle {
+  color: #7b8297;
+  font-size: 0.72rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.register-passwords-row {
+  display: flex;
+  gap: 14px;
+}
+
+.flex-1 {
+  flex: 1;
+  min-width: 0;
+}
