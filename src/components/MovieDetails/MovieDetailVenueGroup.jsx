@@ -7,7 +7,7 @@ export default function MovieDetailVenueGroup({
   ageRestrictionMessage,
   onSelectSession,
 }) {
-  // pregroup sessions by hall name using useMemo
+  // pregroup sessions by hall
   const halls = useMemo(() => {
     const map = {};
     venueGroup.sessions?.forEach((s) => {
