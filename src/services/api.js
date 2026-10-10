@@ -50,6 +50,10 @@ export const authApi = {
     method: 'POST',
     body: formData,
   }),
+  updateProfile: (formData) => apiFetch('/profile', {
+    method: 'PUT',
+    body: formData,
+  }),
   logout: () => apiFetch('/logout', { method: 'POST' }),
   getMe: () => apiFetch('/me'),
 };

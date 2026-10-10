@@ -8,6 +8,7 @@ import SessionsPage from './pages/SessionsPage/SessionsPage';
 import MovieDetailPage from './pages/MovieDetailPage/MovieDetailPage';
 import LoginModal from './components/Auth/LoginModal';
 import RegisterModal from './components/Auth/RegisterModal';
+import ProfilePage from './pages/ProfilePage/ProfilePage';
 
 function AppContent() {
   const navigate = useNavigate();
@@ -86,6 +87,10 @@ function AppContent() {
               onSelectSession={handleSelectSession}
             />
           }
+        />
+        <Route
+          path="/profile"
+          element={<ProfilePage />}
         />
         <Route
           path="*"
