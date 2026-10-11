@@ -1,18 +1,17 @@
 .ticket-card {
-  display: flex;
-  justify-content: space-between;
-  align-items: stretch;
-  background-color: #0c1224;
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 18px;
-  padding: 24px;
-  gap: 32px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-  transition: border-color 0.2s ease;
-}
+  --tc-bg: #1e2035;
+  --tc-pill: #2b2e48;
+  --tc-muted: #8a8ea6;
 
-.ticket-card:hover {
-  border-color: rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: stretch;
+  gap: 24px;
+  box-sizing: border-box;
+  padding: 24px 24px 24px 30px;
+  border-radius: 28px;
+  background: var(--tc-bg);
+  color: #fff;
+  font-family: var(--font-family, 'Archivo', sans-serif);
 }
 
 .ticket-card.past-ticket {
@@ -21,30 +20,30 @@
 
 .ticket-main-section {
   display: flex;
-  gap: 24px;
+  gap: 18px;
   flex: 1;
+  min-width: 0;
+}
+
+.ticket-poster-img,
+.ticket-poster-placeholder {
+  width: 100px;
+  height: 134px;
+  border-radius: 8px;
+  flex-shrink: 0;
 }
 
 .ticket-poster-img {
-  width: 90px;
-  height: 125px;
-  border-radius: 10px;
   object-fit: cover;
-  flex-shrink: 0;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
 }
 
 .ticket-poster-placeholder {
-  width: 90px;
-  height: 125px;
-  border-radius: 10px;
-  background-color: #171c2f;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #7b8297;
+  background: var(--tc-pill);
+  color: var(--tc-muted);
   font-size: 0.75rem;
-  flex-shrink: 0;
 }
 
 .ticket-details-col {
@@ -53,155 +52,168 @@
   justify-content: space-between;
   gap: 12px;
   flex: 1;
+  min-width: 0;
 }
 
 .ticket-title-row {
   display: flex;
   align-items: center;
-  gap: 12px;
   flex-wrap: wrap;
+  gap: 10px;
 }
 
 .ticket-movie-title {
-  color: #ffffff;
-  font-size: 1.25rem;
-  font-weight: 800;
   margin: 0;
-  letter-spacing: 0.02em;
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.2;
   text-transform: uppercase;
 }
 
 .ticket-age-badge {
-  background: rgba(236, 48, 19, 0.15);
-  border: 1px solid rgba(236, 48, 19, 0.4);
-  color: #ff5238;
-  font-size: 0.72rem;
-  font-weight: 700;
-  padding: 2px 7px;
+  padding: 2px 8px;
   border-radius: 6px;
+  background: rgba(236, 48, 19, 0.18);
+  color: #ff4a2e;
+  font-size: 12px;
+  font-weight: 700;
 }
 
 .ticket-runtime {
-  color: #7b8297;
-  font-size: 0.82rem;
+  color: var(--tc-muted);
+  font-size: 14px;
   font-weight: 500;
 }
 
 .ticket-info-grid {
   display: flex;
-  gap: 36px;
   flex-wrap: wrap;
+  gap: 8px 40px;
 }
 
 .ticket-info-item {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
 }
 
-.ticket-info-label {
-  color: #656d86;
-  font-size: 0.68rem;
+.ticket-info-label,
+.ticket-side-label {
+  color: var(--tc-muted);
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
 .ticket-info-value {
-  color: #d1d5e2;
-  font-size: 0.88rem;
+  color: #fff;
+  font-size: 14px;
   font-weight: 600;
 }
 
 .ticket-seats-row {
   display: flex;
   align-items: center;
-  gap: 16px;
   flex-wrap: wrap;
+  gap: 10px;
 }
 
 .ticket-seat-pills {
   display: flex;
-  gap: 8px;
   flex-wrap: wrap;
+  gap: 8px;
 }
 
 .ticket-seat-pill {
-  background-color: #171c2f;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 8px;
-  padding: 4px 12px;
-  color: #e5e8f2;
-  font-size: 0.78rem;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: var(--tc-pill);
+  color: #fff;
+  font-size: 12px;
   font-weight: 600;
 }
-
 
 .ticket-side-section {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
   justify-content: space-between;
-  width: 200px;
+  box-sizing: border-box;
+  width: 276px;
   flex-shrink: 0;
-  text-align: right;
+  margin: -24px 0;
+  padding: 24px 0 24px 24px;
+  position: relative;
+  text-align: left;
 }
 
-.ticket-side-label {
-  color: #656d86;
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+.ticket-side-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 1px;
+  background: repeating-linear-gradient(to bottom,
+      rgba(255, 255, 255, 0.18) 0 4px,
+      transparent 4px 12px);
+}
+
+.ticket-order-ref-block {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .ticket-order-ref {
-  display: block;
-  color: #ffffff;
-  font-size: 0.95rem;
+  color: #fff;
+  font-size: 14px;
   font-weight: 700;
-  margin-top: 2px;
 }
 
 .ticket-price-block {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  margin-top: auto;
-  margin-bottom: 12px;
+  align-items: center;
+  justify-content: space-between;
+  margin: auto 0 10px;
+}
+
+.ticket-price-block .ticket-side-label {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .ticket-total-price {
-  color: #ffffff;
-  font-size: 1.7rem;
-  font-weight: 800;
-  letter-spacing: -0.01em;
+  color: #fff;
+  font: 800 24px/1 var(--font-family, 'Archivo', sans-serif), system-ui, sans-serif;
 }
 
 .ticket-refund-action {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  gap: 6px;
+  align-items: stretch;
+  gap: 8px;
   width: 100%;
 }
 
 .ticket-refund-btn {
   width: 100%;
-  height: 40px;
-  background-color: #262c42;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  height: 36px;
+  border: 0;
   border-radius: 10px;
-  color: #ffffff;
+  background: var(--tc-pill);
+  color: #fff;
   font-family: inherit;
-  font-size: 0.88rem;
+  font-size: 14px;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s ease;
 }
 
 .ticket-refund-btn:hover:not(:disabled) {
-  background-color: #333a55;
+  background: #363a5a;
 }
 
 .ticket-refund-btn:disabled {
@@ -210,23 +222,19 @@
 }
 
 .ticket-refund-btn.danger {
-  background-color: #ec3013;
-  border-color: #ec3013;
+  flex: 1;
+  background: #ec3013;
 }
 
 .ticket-refund-btn.danger:hover:not(:disabled) {
-  background-color: #ff4124;
+  background: #ff4124;
 }
 
-.ticket-cancel-btn {
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
-  color: #b0b6cb;
-  padding: 6px 12px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  cursor: pointer;
+.ticket-refund-note {
+  color: var(--tc-muted);
+  font-size: 12px;
+  font-weight: 500;
+  text-align: center;
 }
 
 .ticket-refund-confirm-box {
@@ -234,13 +242,13 @@
   flex-direction: column;
   gap: 8px;
   width: 100%;
-  align-items: flex-end;
 }
 
 .ticket-refund-confirm-text {
   color: #ff917f;
-  font-size: 0.78rem;
+  font-size: 12px;
   font-weight: 600;
+  text-align: center;
 }
 
 .ticket-confirm-btn-row {
@@ -249,40 +257,55 @@
   width: 100%;
 }
 
-.ticket-refund-note {
-  color: #656d86;
-  font-size: 0.72rem;
-  font-weight: 500;
+.ticket-cancel-btn {
+  height: 36px;
+  padding: 0 14px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  background: transparent;
+  color: #b0b6cb;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 .ticket-refund-error {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
   color: #ff5238;
-  font-size: 0.74rem;
+  font-size: 12px;
   font-weight: 500;
-  margin-top: 4px;
 }
 
 @media (max-width: 860px) {
   .ticket-card {
     flex-direction: column;
+    padding: 20px;
   }
 
   .ticket-side-section {
     width: 100%;
-    align-items: flex-start;
-    text-align: left;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-    padding-top: 16px;
+    gap: 14px;
+    margin: 0;
+    padding: 16px 0 0;
+  }
+
+  .ticket-side-section::before {
+    top: 0;
+    bottom: auto;
+    left: 0;
+    right: 0;
+    width: auto;
+    height: 1px;
+    background: repeating-linear-gradient(to right,
+        rgba(255, 255, 255, 0.18) 0 4px,
+        transparent 4px 12px);
   }
 
   .ticket-price-block {
-    align-items: flex-start;
-  }
-
-  .ticket-refund-action {
-    align-items: flex-start;
+    margin: 0;
   }
 }

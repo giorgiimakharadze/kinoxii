@@ -7,6 +7,9 @@ import CheckoutStep from './Step2Checkout/CheckoutStep';
 import OrderConfirmationView from './Confirmation/OrderConfirmationView';
 import './BookingModal.css';
 
+// tells pages that show seatsLeft to refetch
+const notifyBookingsChanged = () => window.dispatchEvent(new Event('bookings:changed'));
+
 export default function BookingModal({
   session,
   user,
@@ -71,7 +74,10 @@ export default function BookingModal({
     if (!holdData?.expiresAt || currentStep === 3) return;
 
     const tick = () => {
-      const diff = Math.max(0, Math.floor((new Date(holdData.expiresAt).getTime() - Date.now()) / 1000));
+      const diff = Math.max(
+        0,
+        Math.floor((new Date(holdData.expiresAt).getTime() - Date.now()) / 1000)
+      );
       setTimeLeft(diff);
 
       if (diff === 0) {
@@ -81,6 +87,7 @@ export default function BookingModal({
         setSelectedSeats([]);
         setCurrentStep(1);
         loadSeatMap();
+        notifyBookingsChanged(); // held seats are free again
       }
     };
 
@@ -88,6 +95,31 @@ export default function BookingModal({
     timerIntervalRef.current = setInterval(tick, 1000);
     return () => clearInterval(timerIntervalRef.current);
   }, [holdData, currentStep, loadSeatMap]);
+
+
+  const handleClose = useCallback(async () => {
+    if (isPaying) return;
+
+    if (holdData?.holdId && currentStep !== 3) {
+      try {
+        await bookingApi.releaseHold(holdData.holdId);
+      } catch {
+        /* 404 or already expired, treat as success */
+      }
+    }
+    notifyBookingsChanged(); // covers a released hold and a normal close
+    onClose?.();
+  }, [isPaying, holdData, currentStep, onClose]);
+
+  // escape closes the modal
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e) => {
+      if (e.key === 'Escape') handleClose();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isOpen, handleClose]);
 
   const formatTimer = (totalSeconds) => {
     if (totalSeconds === null || totalSeconds === undefined) return '8:00';
@@ -133,7 +165,7 @@ export default function BookingModal({
       return;
     }
     if (!user.profileComplete) {
-      onClose();
+      onClose?.(); // no hold exists yet, nothing to release
       onNavigateToProfile?.();
       return;
     }
@@ -179,10 +211,13 @@ export default function BookingModal({
       if (res?.data) {
         setCompletedOrder(res.data);
         setCurrentStep(3);
+        notifyBookingsChanged(); // seats were sold
       }
     } catch (err) {
-      if (err.status === 422 && err.data?.errors) {
-        setServerErrors(err.data.errors);
+      const fieldErrors = err.data?.errors;
+
+      if (err.status === 422 && fieldErrors && !fieldErrors.holdId) {
+        setServerErrors(fieldErrors);
       } else if (err.status === 409 || err.status === 422) {
         showToast(err.data?.message || 'Your hold expired. Please re-select your seats.');
         setCurrentStep(1);
@@ -204,16 +239,23 @@ export default function BookingModal({
   const ageRating = movie?.ageRating || session?.ageRating;
 
   return (
-    <div className="booking-modal-overlay">
+    <div
+      className="booking-modal-overlay"
+      onMouseDown={(e) => {
+        if (e.target === e.currentTarget) handleClose();
+      }}
+    >
       <div className="booking-modal-card">
-        <button
-          type="button"
-          className="booking-close-btn"
-          onClick={onClose}
-          aria-label="Close"
-        >
-          <X size={20} />
-        </button>
+        {currentStep === 3 && (
+          <button
+            type="button"
+            className="booking-close-btn"
+            onClick={handleClose}
+            aria-label="Close"
+          >
+            <X size={20} />
+          </button>
+        )}
 
         {currentStep !== 3 && (
           <div className="booking-modal-header">
@@ -298,10 +340,10 @@ export default function BookingModal({
               order={completedOrder}
               session={session}
               onNavigateToTickets={() => {
-                onClose();
+                onClose?.();
                 onNavigateToProfile?.('tickets');
               }}
-              onClose={onClose}
+              onClose={handleClose}
             />
           )}
         </div>

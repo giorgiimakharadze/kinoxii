@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { Timer } from 'lucide-react';
 import { moviesApi } from '../../services/api';
@@ -12,7 +12,7 @@ function formatFullDate(dateStr) {
   if (!dateStr) return '';
   const d = new Date(dateStr);
   if (Number.isNaN(d.getTime())) return dateStr;
-  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
 }
 
 export default function MovieDetailPage({ user = null, onSelectSession }) {
@@ -73,6 +73,38 @@ export default function MovieDetailPage({ user = null, onSelectSession }) {
       cancelled = true;
     };
   }, [slug, selectedDate]);
+
+
+  // keep seatsLeft fresh without a page reload
+  const sessionsKey = `${slug}|${selectedDate}`;
+  const sessionsKeyRef = useRef(sessionsKey);
+  sessionsKeyRef.current = sessionsKey;
+
+  const refreshSessions = useCallback(async () => {
+    if (!slug || !selectedDate) return;
+    const sentKey = sessionsKey;
+    try {
+      const res = await moviesApi.getMovieSessions(slug, selectedDate);
+      if (sessionsKeyRef.current !== sentKey) return;
+      setSessionsByVenue(res?.data || []);
+    } catch (err) {
+      console.error('Background refresh failed:', err);
+    }
+  }, [slug, selectedDate, sessionsKey]);
+
+  useEffect(() => {
+    const refresh = () => {
+      if (!document.hidden) refreshSessions();
+    };
+    const id = setInterval(refresh, 30000);
+    document.addEventListener('visibilitychange', refresh);
+    window.addEventListener('bookings:changed', refresh);
+    return () => {
+      clearInterval(id);
+      document.removeEventListener('visibilitychange', refresh);
+      window.removeEventListener('bookings:changed', refresh);
+    };
+  }, [refreshSessions]);
 
 
   // total session count

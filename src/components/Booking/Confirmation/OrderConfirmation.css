@@ -1,176 +1,200 @@
 .order-confirmation-container {
+  --oc-bg-card: #1e2031;
+  --oc-muted: #a9a9a9;
+  --oc-green: #4ade80;
+  --oc-red: #ec3013;
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px 10px 10px;
-  max-width: 640px;
+  width: 100%;
+  max-width: 672px;
   margin: 0 auto;
+  padding: 48px 24px;
+  box-sizing: border-box;
   text-align: center;
+  font-family: var(--font-family, 'Archivo', sans-serif);
+  color: #fff;
 }
 
-.confirmation-header-badge {
+.confirmation-header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 28px;
+  max-width: 360px;
+  margin-bottom: 24px;
 }
 
-.confirmation-check-icon {
-  color: #4ade80;
-  margin-bottom: 12px;
+.confirmation-check {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 20px;
+  border-radius: 50%;
+  background: var(--oc-green);
+  color: #fff;
 }
 
 .confirmation-title {
-  color: #ffffff;
-  font-size: 1.8rem;
-  font-weight: 800;
-  margin: 0 0 6px;
+  margin: 0 0 10px;
+  font: 800 24px/28px var(--font-family, 'Archivo', sans-serif);
 }
 
 .confirmation-subtitle {
-  color: #7b8297;
-  font-size: 0.9rem;
-  margin: 0;
+  margin: 0 0 18px;
+  color: var(--oc-muted);
+  font: 400 14px/20px var(--font-family, 'Archivo', sans-serif);
+}
+
+.confirmation-ref-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 190px;
+  height: 26px;
+  padding: 0 16px;
+  border-radius: 999px;
+  background: #2a2c3d;
+  font: 700 12px/1 var(--font-family, 'Archivo', sans-serif);
+  text-transform: uppercase;
 }
 
 .confirmation-card {
   width: 100%;
-  background-color: #0b1021;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 18px;
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
+  box-sizing: border-box;
+  margin-bottom: 24px;
+  padding: 20px;
+  border-radius: 14px;
+  background: var(--oc-bg-card);
   text-align: left;
-  margin-bottom: 28px;
 }
 
-.confirmation-card-top {
+.confirmation-film {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+  gap: 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.confirmation-poster {
+  flex-shrink: 0;
+  width: 48px;
+  height: 64px;
+  border-radius: 6px;
+  object-fit: cover;
+  background: #2a2c3d;
+}
+
+.confirmation-film-info {
+  min-width: 0;
 }
 
 .confirmation-movie-title {
-  color: #ffffff;
-  font-size: 1.25rem;
-  font-weight: 800;
+  margin: 2px 0 6px;
+  font: 800 14px/16px var(--font-family, 'Archivo', sans-serif);
   text-transform: uppercase;
-  margin: 0 0 4px;
+  overflow-wrap: anywhere;
 }
 
 .confirmation-session-meta {
-  color: #7b8297;
-  font-size: 0.8rem;
+  margin: 0;
+  color: var(--oc-muted);
+  font: 400 12px/16px var(--font-family, 'Archivo', sans-serif);
 }
 
-.confirmation-ref-box {
+.confirmation-rows {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  gap: 14px;
+  margin: 0;
+  padding: 16px 0;
 }
 
-.confirmation-ref-label {
-  color: #656d86;
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-}
-
-.confirmation-ref-code {
-  color: #ffffff;
-  font-size: 1.1rem;
-  font-weight: 800;
-}
-
-.confirmation-divider {
-  height: 1px;
-  background-color: rgba(255, 255, 255, 0.08);
-}
-
-.confirmation-card-bottom {
+.confirmation-row {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  gap: 16px;
+  font: 400 12px/16px var(--font-family, 'Archivo', sans-serif);
 }
 
-.confirmation-detail-label {
-  color: #656d86;
-  font-size: 0.68rem;
-  font-weight: 700;
-  display: block;
-  margin-bottom: 6px;
+.confirmation-row dt {
+  color: var(--oc-muted);
 }
 
-.confirmation-seats-pills {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.confirmation-seat-pill {
-  background-color: #171c2f;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 8px;
-  padding: 4px 10px;
-  color: #ffffff;
-  font-size: 0.78rem;
-  font-weight: 700;
-}
-
-.confirmation-total-block {
+.confirmation-row dd {
+  margin: 0;
   text-align: right;
 }
 
-.confirmation-total-price {
-  color: #ffffff;
-  font-size: 1.5rem;
+.confirmation-row:first-child dd {
   font-weight: 800;
+  color: #fff;
 }
 
-.confirmation-actions-row {
-  display: flex;
-  gap: 16px;
-  width: 100%;
+.confirmation-row:last-child dd {
+  color: #d9d9e0;
 }
 
-.confirmation-tickets-btn {
-  flex: 1;
-  height: 46px;
-  background-color: var(--color-red, #ec3013);
-  border: none;
-  border-radius: 12px;
-  color: #ffffff;
-  font-family: inherit;
-  font-size: 0.92rem;
-  font-weight: 700;
+.confirmation-total {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.confirmation-total-label {
+  color: var(--oc-muted);
+  font: 400 12px/16px var(--font-family, 'Archivo', sans-serif);
+  text-transform: uppercase;
+}
+
+.confirmation-total-price {
+  font: 800 18px/22px var(--font-family, 'Archivo', sans-serif), system-ui, sans-serif;
+}
+
+.confirmation-actions {
+  display: flex;
   justify-content: center;
-  gap: 8px;
+  gap: 12px;
+}
+
+.confirmation-btn {
+  height: 42px;
+  padding: 0 24px;
+  border: 0;
+  border-radius: 999px;
+  color: #fff;
+  font: 800 14px/1 var(--font-family, 'Archivo', sans-serif);
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s ease;
 }
 
-.confirmation-tickets-btn:hover {
-  background-color: #ff3e20;
+.confirmation-btn--red {
+  background: var(--oc-red);
 }
 
-.confirmation-close-btn {
-  height: 46px;
-  padding: 0 28px;
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 12px;
-  color: #ffffff;
-  font-family: inherit;
-  font-size: 0.92rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
+.confirmation-btn--red:hover {
+  background: #d8260b;
 }
 
-.confirmation-close-btn:hover {
-  background-color: rgba(255, 255, 255, 0.08);
+.confirmation-btn--dark {
+  background: var(--oc-bg-card);
+}
+
+.confirmation-btn--dark:hover {
+  background: #2a2c3d;
+}
+
+.confirmation-btn:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+@media (max-width: 480px) {
+  .confirmation-actions {
+    flex-direction: column;
+    width: 100%;
+  }
 }

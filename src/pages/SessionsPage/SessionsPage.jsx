@@ -61,6 +61,7 @@ export default function SessionsPage({ onSelectSession, onSelectMovie }) {
   const [loading, setLoading] = useState(true);
 
 
+  // load filter options once (cached)
   useEffect(() => {
     async function loadOptions() {
       try {
@@ -82,19 +83,6 @@ export default function SessionsPage({ onSelectSession, onSelectMovie }) {
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
-
-  // fetch filter options
-  useEffect(() => {
-    async function loadOptions() {
-      try {
-        const res = await moviesApi.getFilterOptions();
-        setFilterOptions(res?.data || null);
-      } catch (err) {
-        console.error('Failed to load filter options:', err);
-      }
-    }
-    loadOptions();
-  }, []);
   // update both react state and browser url query
   const updateState = useCallback((updater) => {
     setState((prev) => {
@@ -142,14 +130,15 @@ export default function SessionsPage({ onSelectSession, onSelectMovie }) {
     }));
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
   // fetch sessions on any filter/sort/page change
   useEffect(() => {
     let cancelled = false;
     async function fetchSessions() {
       try {
         setLoading(true);
-        const apiQuery = buildApiQuery(state);
-        const res = await moviesApi.getSessions(apiQuery);
+        const query = buildApiQuery(state);
+        const res = await moviesApi.getSessions(query);
         if (cancelled) return;
         setMovieGroups(res?.data || []);
         setMeta(res?.meta || null);
@@ -164,6 +153,39 @@ export default function SessionsPage({ onSelectSession, onSelectMovie }) {
       cancelled = true;
     };
   }, [state]);
+
+  // keep seatsLeft fresh without a page reload
+  const apiQuery = buildApiQuery(state);
+  const apiQueryRef = useRef(apiQuery);
+  apiQueryRef.current = apiQuery;
+
+  // re-fetch without the skeleton, and drop the result if the filters changed meanwhile
+  const refreshSilently = useCallback(async () => {
+    const sent = apiQuery;
+    try {
+      const res = await moviesApi.getSessions(sent);
+      if (apiQueryRef.current !== sent) return;
+      setMovieGroups(res?.data || []);
+      setMeta(res?.meta || null);
+    } catch (err) {
+      console.error('Background refresh failed:', err);
+    }
+  }, [apiQuery]);
+
+  useEffect(() => {
+    const refresh = () => {
+      if (!document.hidden) refreshSilently();
+    };
+    const id = setInterval(refresh, 30000);
+    document.addEventListener('visibilitychange', refresh);
+    window.addEventListener('bookings:changed', refresh);
+    return () => {
+      clearInterval(id);
+      document.removeEventListener('visibilitychange', refresh);
+      window.removeEventListener('bookings:changed', refresh);
+    };
+  }, [refreshSilently]);
+
   const totalSessionsCount = meta?.totalSessions || 0;
   const totalPages = meta?.lastPage || 1;
   return (
