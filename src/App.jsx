@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { addRecentlyViewed } from './utils/recentStorage';
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
 import HomePage from './pages/HomePage/HomePage';
@@ -34,6 +35,9 @@ function AppContent() {
     } else if (destination === 'sessions') {
       navigate('/sessions');
     } else if (destination === 'movie') {
+      if (payload && typeof payload === 'object' && payload.slug) {
+        addRecentlyViewed(payload);
+      }
       navigate(`/movies/${payload?.slug || payload}`);
     } else if (destination === 'profile') {
       requireAuth(() => navigate('/profile'));
@@ -129,7 +133,10 @@ function AppContent() {
         session={selectedSession}
         user={user}
         onClose={() => setIsBookingOpen(false)}
-        onNavigateToProfile={() => navigate('/profile')}
+        onNavigateToProfile={(tab) => {
+          setIsBookingOpen(false);
+          navigate(tab === 'tickets' ? '/profile?tab=tickets' : '/profile');
+        }}
         onOpenLogin={() => openLogin()}
       />
       {/* Global Footer */}

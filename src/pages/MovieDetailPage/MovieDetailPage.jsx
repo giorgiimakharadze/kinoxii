@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Timer } from 'lucide-react';
 import { moviesApi } from '../../services/api';
 import { getNextSevenDays } from '../../utils/dateHelpers';
+import { addRecentlyViewed } from '../../utils/recentStorage';
 import MovieDetailSessionCard from '../../components/MovieDetails/MovieDetailSessionCard';
 import MovieDetailVenueGroup from '../../components/MovieDetails/MovieDetailVenueGroup';
 import './MovieDetailPage.css';
@@ -33,7 +34,12 @@ export default function MovieDetailPage({ user = null, onSelectSession }) {
         setLoadingMovie(true);
         const res = await moviesApi.getMovieDetails(slug);
         if (cancelled) return;
-        setMovie(res?.data || null);
+        const movieData = res?.data || null;
+        setMovie(movieData);
+
+        if (movieData) {
+          addRecentlyViewed(movieData);
+        }
       } catch (err) {
         if (!cancelled) console.error('Failed to load movie details:', err);
       } finally {
@@ -45,6 +51,7 @@ export default function MovieDetailPage({ user = null, onSelectSession }) {
       cancelled = true;
     };
   }, [slug]);
+
 
   // fetch sessions
   useEffect(() => {
@@ -199,7 +206,8 @@ export default function MovieDetailPage({ user = null, onSelectSession }) {
                   venueGroup={venueGroup}
                   isBlockedByAge={isBlockedByAge}
                   ageRestrictionMessage={ageRestrictionMessage}
-                  onSelectSession={onSelectSession} />
+                  onSelectSession={(sess) => onSelectSession?.({ ...sess, movie })}
+                />
               ))}
             </div>
           )}

@@ -10,7 +10,14 @@ export default function SelectedSeatsPanel({
   onProceed,
   isHolding,
 }) {
-  const isChildForbidden = Boolean(filmAgeRating?.minAge && filmAgeRating.minAge >= 16);
+  const minAge = filmAgeRating?.minAge ?? (
+    typeof filmAgeRating === 'number' ? filmAgeRating :
+      filmAgeRating?.code ? parseInt(filmAgeRating.code, 10) :
+        typeof filmAgeRating === 'string' ? parseInt(filmAgeRating, 10) : 0
+  );
+  const ratingCode = filmAgeRating?.code || (typeof filmAgeRating === 'string' ? filmAgeRating : '');
+
+  const isChildForbidden = minAge >= 16 || ratingCode.includes('16') || ratingCode.includes('18');
 
   const subtotal = selectedSeats.reduce((acc, seat) => {
     let ratio = 1;

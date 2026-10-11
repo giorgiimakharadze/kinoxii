@@ -3,6 +3,8 @@ import { X, AlertCircle } from 'lucide-react';
 import { bookingApi } from '../../services/api';
 import SeatMap from './Step1Seats/SeatMap';
 import SelectedSeatsPanel from './Step1Seats/SelectedSeatsPanel';
+import CheckoutStep from './Step2Checkout/CheckoutStep';
+import OrderConfirmationView from './Confirmation/OrderConfirmationView';
 import './BookingModal.css';
 
 export default function BookingModal({
@@ -18,7 +20,10 @@ export default function BookingModal({
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [holdData, setHoldData] = useState(null);
   const [isHolding, setIsHolding] = useState(false);
+  const [isPaying, setIsPaying] = useState(false);
   const [timeLeft, setTimeLeft] = useState(null);
+  const [serverErrors, setServerErrors] = useState({});
+  const [completedOrder, setCompletedOrder] = useState(null);
 
   const [toastMessage, setToastMessage] = useState('');
   const toastTimeoutRef = useRef(null);
@@ -49,6 +54,8 @@ export default function BookingModal({
       setHoldData(null);
       setTimeLeft(null);
       setToastMessage('');
+      setServerErrors({});
+      setCompletedOrder(null);
       loadSeatMap();
     }
   }, [isOpen, session, loadSeatMap]);
@@ -60,9 +67,8 @@ export default function BookingModal({
     };
   }, []);
 
-
   useEffect(() => {
-    if (!holdData?.expiresAt) return;
+    if (!holdData?.expiresAt || currentStep === 3) return;
 
     const tick = () => {
       const diff = Math.max(0, Math.floor((new Date(holdData.expiresAt).getTime() - Date.now()) / 1000));
@@ -81,7 +87,7 @@ export default function BookingModal({
     tick();
     timerIntervalRef.current = setInterval(tick, 1000);
     return () => clearInterval(timerIntervalRef.current);
-  }, [holdData, loadSeatMap]);
+  }, [holdData, currentStep, loadSeatMap]);
 
   const formatTimer = (totalSeconds) => {
     if (totalSeconds === null || totalSeconds === undefined) return '8:00';
@@ -154,9 +160,7 @@ export default function BookingModal({
             ? `Seats ${contested.join(', ')} were just taken by someone else.`
             : 'Some of your chosen seats are no longer available.'
         );
-
         setSelectedSeats((prev) => prev.filter((s) => !contested.includes(s.code)));
-
         await loadSeatMap();
       } else {
         showToast(err.message || 'Could not hold seats. Please try again.');
@@ -166,10 +170,38 @@ export default function BookingModal({
     }
   };
 
+  const handleCompleteOrder = async (orderPayload) => {
+    setIsPaying(true);
+    setServerErrors({});
+
+    try {
+      const res = await bookingApi.createOrder(orderPayload);
+      if (res?.data) {
+        setCompletedOrder(res.data);
+        setCurrentStep(3);
+      }
+    } catch (err) {
+      if (err.status === 422 && err.data?.errors) {
+        setServerErrors(err.data.errors);
+      } else if (err.status === 409 || err.status === 422) {
+        showToast(err.data?.message || 'Your hold expired. Please re-select your seats.');
+        setCurrentStep(1);
+        setSelectedSeats([]);
+        setHoldData(null);
+        await loadSeatMap();
+      } else {
+        showToast(err.message || 'Payment failed. Please try again.');
+      }
+    } finally {
+      setIsPaying(false);
+    }
+  };
+
   if (!isOpen || !session) return null;
 
-  const movie = session.movie;
+  const movie = session.movie || session;
   const langName = session.language?.name || session.language?.code || 'Original + Subtitles';
+  const ageRating = movie?.ageRating || session?.ageRating;
 
   return (
     <div className="booking-modal-overlay">
@@ -183,46 +215,50 @@ export default function BookingModal({
           <X size={20} />
         </button>
 
-        <div className="booking-modal-header">
-          <div className="booking-header-left">
-            <h2 className="booking-movie-title">{movie?.title || 'Movie Title'}</h2>
-            <div className="booking-session-meta">
-              <span>{session.venue?.name}</span>
-              <span>·</span>
-              <span>{session.hall?.name ? `Hall ${session.hall.name}` : ''}</span>
-              <span>·</span>
-              <span>{session.date} {session.time}</span>
-              <span>·</span>
-              <span>{session.format?.name}</span>
-              <span>·</span>
-              <span>{langName}</span>
+        {currentStep !== 3 && (
+          <div className="booking-modal-header">
+            <div className="booking-header-left">
+              <h2 className="booking-movie-title">{movie?.title || 'Movie Title'}</h2>
+              <div className="booking-session-meta">
+                <span>{session.venue?.name}</span>
+                <span>·</span>
+                <span>{session.hall?.name ? `Hall ${session.hall.name}` : ''}</span>
+                <span>·</span>
+                <span>{session.date} {session.time}</span>
+                <span>·</span>
+                <span>{session.format?.name}</span>
+                <span>·</span>
+                <span>{langName}</span>
+              </div>
             </div>
+
+            {holdData && (
+              <div className="booking-timer-badge">
+                <span className="booking-timer-label">SEATS HELD</span>
+                <span className="booking-timer-clock">{formatTimer(timeLeft)}</span>
+              </div>
+            )}
           </div>
+        )}
 
-          {holdData && (
-            <div className="booking-timer-badge">
-              <span className="booking-timer-label">SEATS HELD</span>
-              <span className="booking-timer-clock">{formatTimer(timeLeft)}</span>
-            </div>
-          )}
-        </div>
-
-        <div className="booking-steps-bar">
-          <button
-            type="button"
-            className={`booking-step-btn ${currentStep === 1 ? 'active' : ''}`}
-            onClick={() => setCurrentStep(1)}
-          >
-            SEATS
-          </button>
-          <button
-            type="button"
-            className={`booking-step-btn ${currentStep === 2 ? 'active' : ''}`}
-            disabled={!holdData}
-          >
-            CHECKOUT
-          </button>
-        </div>
+        {currentStep !== 3 && (
+          <div className="booking-steps-bar">
+            <button
+              type="button"
+              className={`booking-step-btn ${currentStep === 1 ? 'active' : ''}`}
+              onClick={() => setCurrentStep(1)}
+            >
+              SEATS
+            </button>
+            <button
+              type="button"
+              className={`booking-step-btn ${currentStep === 2 ? 'active' : ''}`}
+              disabled={!holdData}
+            >
+              CHECKOUT
+            </button>
+          </div>
+        )}
 
         <div className="booking-modal-body">
           {currentStep === 1 ? (
@@ -239,7 +275,7 @@ export default function BookingModal({
                 <SelectedSeatsPanel
                   selectedSeats={selectedSeats}
                   basePrice={session.price}
-                  filmAgeRating={movie?.ageRating}
+                  filmAgeRating={ageRating}
                   onTypeChange={handleTicketTypeChange}
                   onRemoveSeat={handleRemoveSeat}
                   onProceed={handleProceedToCheckout}
@@ -247,11 +283,26 @@ export default function BookingModal({
                 />
               </div>
             </div>
+          ) : currentStep === 2 ? (
+            <CheckoutStep
+              session={session}
+              user={user}
+              holdData={holdData}
+              selectedSeats={selectedSeats}
+              onCompleteOrder={handleCompleteOrder}
+              isPaying={isPaying}
+              serverErrors={serverErrors}
+            />
           ) : (
-            <div className="booking-checkout-placeholder">
-              <h3>Step 2: Checkout not implemented yet</h3>
-              <p>Hold ID: {holdData?.holdId}</p>
-            </div>
+            <OrderConfirmationView
+              order={completedOrder}
+              session={session}
+              onNavigateToTickets={() => {
+                onClose();
+                onNavigateToProfile?.('tickets');
+              }}
+              onClose={onClose}
+            />
           )}
         </div>
 
