@@ -1,6 +1,6 @@
 import React from 'react';
 import { User, Ticket, LogOut, Check } from 'lucide-react';
-import './ProfileDropdown.css';
+import './ProfileDropDown.css';
 import ticketIcon from "../../assets/icons/Ticket.png"
 
 
