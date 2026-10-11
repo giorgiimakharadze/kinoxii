@@ -199,7 +199,6 @@
 .login-submit-btn.ready {
   background-color: #ec3013;
   color: #ffffff;
-  box-shadow: 0 4px 18px rgba(236, 48, 19, 0.4);
 }
 
 .login-submit-btn.ready:hover:not(:disabled) {
